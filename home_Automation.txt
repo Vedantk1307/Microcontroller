@@ -1,0 +1,31 @@
+#define BLYNK_PRINT Serial 
+#include <ESP8266WiFi.h> 
+#include <BlynkSimpleEsp8266.h> 
+// Replace with your network credentials 
+char ssid[] = "Himanshu’s M53"; 
+char pass[] = "Himanshu3"; 
+// Replace with your Blynk Auth Token 
+char auth[] = "6vN5ZC3jFxRxxd2fY5n5Y"; 
+// Pin where relay is connected 
+const int relayPin = D1; 
+void setup() { 
+Serial.begin(115200); 
+delay(100); 
+pinMode(relayPin, OUTPUT); 
+digitalWrite(relayPin, HIGH); // Relay off (assuming active LOW) 
+Blynk.begin(auth, ssid, pass); 
+} 
+void loop() { 
+Blynk.run(); 
+} 
+// This function will be called every time you press button widget in Blynk app 
+BLYNK_WRITE(V1) { 
+int pinValue = param.asInt(); // Get value from app (0 or 1) 
+if(pinValue == 1) { 
+digitalWrite(relayPin, LOW);  // Turn ON relay (active LOW) 
+Serial.println("Relay ON"); 
+} else { 
+digitalWrite(relayPin, HIGH); // Turn OFF relay 
+Serial.println("Relay OFF"); 
+} 
+}
